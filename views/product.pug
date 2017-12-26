@@ -1,0 +1,33 @@
+extends ./layout.pug
+
+block body
+  div.container.product-details
+    - var imageURL = productContent.data.image.url
+    - var price = productContent.data.price
+    
+    div.product-image
+      img(src=imageURL)
+    div.product-info
+      != PrismicDOM.RichText.asHtml(productContent.data.title)
+      p.product-price 
+        != price ? "$" + price : ''
+      div.product-description
+        != PrismicDOM.RichText.asHtml(productContent.data.description)
+      
+      include ./partials/add-to-cart-button.pug
+      
+  if relatedProducts.results_size > 0
+    div.container.recommended
+      h2 Recommended
+      div.recommended-wrapper
+        for relatedProduct in relatedProducts.results
+          - var relatedImageURL = relatedProduct.data.image.Listing.url
+          - var relatedPrice = relatedProduct.data.price
+          
+          div.recommended-product
+            a(href=ctx.linkResolver(relatedProduct))
+              img.recommended-image(src=relatedImageURL)
+              p.recommended-title
+                != PrismicDOM.RichText.asText(relatedProduct.data.title)
+              p.recommended-price 
+                != relatedPrice ? "$" + relatedPrice : ''

@@ -1,0 +1,37 @@
+header
+  - var logo = layoutContent ? layoutContent.data.logo.url : null
+  a(href="/")
+    if logo
+      img.logo(src=logo)
+    else
+      span.logo-text SiteLogo
+
+  div.utility-nav
+    ul
+      li 
+        a(href="#") Help
+        | &nbsp|&nbsp
+      li 
+        a(href="#") Contact Us
+        | &nbsp|&nbsp
+      li 
+        a(href="#" class="snipcart-checkout")
+          div.shopping-cart
+          div.snipcart-summary.cart-count
+            span.snipcart-total-items.cart-count-number
+
+nav.main-nav
+  div.added-to-cart
+    if productContent 
+      p
+        != productContent.data.title != "" ? PrismicDOM.RichText.asText(productContent.data.title) : "This product" 
+        |  has been added to your cart!
+  - var mainNav = layoutContent ? layoutContent.data.mainNav : []
+  ul
+    li
+      a(href="/") Everything
+    each mainLink in mainNav
+      - var mainURL = PrismicDOM.Link.url(mainLink.link, ctx.linkResolver)
+      li 
+        a(href=mainURL)
+          != mainLink.label

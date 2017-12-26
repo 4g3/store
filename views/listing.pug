@@ -1,0 +1,16 @@
+extends ./layout.pug
+
+block body
+
+  div.product-list.container
+    for product in products
+      div.product-list-item
+        a(href=ctx.linkResolver(product))
+          - var imageURL = product.data.image.Listing.url
+          - var price = product.data.price
+          
+          img.product-list-image(src=imageURL)
+          h3.product-list-title
+            != PrismicDOM.RichText.asText(product.data.title)
+          p.product-list-price
+            != price ? "$" + price : ''
