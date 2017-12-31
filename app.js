@@ -9,14 +9,13 @@ const app = require('./config');
 const Cookies = require('cookies');
 const PrismicConfig = require('./prismic-configuration');
 const PORT = app.get('port');
-const HOST = app.get('host');
 
 function render404(req, res) {
   res.status(404);
   res.render('404');
 }
 
-app.listen(HOST, PORT, () => {
+app.listen(PORT, () => {
   process.stdout.write(`Point your browser to: http://localhost:${PORT}\n`);
 });
 
