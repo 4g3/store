@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Module dependencies.
@@ -29,16 +29,16 @@ app.use((req, res, next) => {
   // add PrismicDOM in locals to access them in templates.
   res.locals.PrismicDOM = PrismicDOM;
   Prismic.api(PrismicConfig.apiEndpoint,{ accessToken: PrismicConfig.accessToken, req: req })
-  .then((api) => {
-    req.prismic = { api };
-    next();
-  }).catch(function(err) {
-    if (err.status == 404) {
-      res.status(404).send('There was a problem connecting to your API, please check your configuration file for errors.');
-    } else {
-      res.status(500).send('Error 500: ' + err.message);
-    }
-  });
+    .then((api) => {
+      req.prismic = { api };
+      next();
+    }).catch(function(err) {
+      if (err.status == 404) {
+        res.status(404).send('There was a problem connecting to your API, please check your configuration file for errors.');
+      } else {
+        res.status(500).send('Error 500: ' + err.message);
+      }
+    });
 });
 
 
@@ -69,13 +69,13 @@ app.get('/preview', (req, res) => {
   const token = req.query.token;
   if (token) {
     req.prismic.api.previewSession(token, PrismicConfig.linkResolver, '/')
-    .then((url) => {
-      const cookies = new Cookies(req, res);
-      cookies.set(Prismic.previewCookie, token, { maxAge: 30 * 60 * 1000, path: '/', httpOnly: false });
-      res.redirect(302, url);
-    }).catch((err) => {
-      res.status(500).send(`Error 500 in preview: ${err.message}`);
-    });
+      .then((url) => {
+        const cookies = new Cookies(req, res);
+        cookies.set(Prismic.previewCookie, token, { maxAge: 30 * 60 * 1000, path: '/', httpOnly: false });
+        res.redirect(302, url);
+      }).catch((err) => {
+        res.status(500).send(`Error 500 in preview: ${err.message}`);
+      });
   } else {
     res.send(400, 'Missing token from querystring');
   }
@@ -140,9 +140,9 @@ app.route('/category/:uid').get(function(req, res) {
     
     // Query all the products linked to the given category ID
     req.prismic.api.query([
-        Prismic.Predicates.at('document.type', 'product'),
-        Prismic.Predicates.at('my.product.categories.link', categoryID)
-      ], { orderings : '[my.product.date desc]'}
+      Prismic.Predicates.at('document.type', 'product'),
+      Prismic.Predicates.at('my.product.categories.link', categoryID)
+    ], { orderings : '[my.product.date desc]'}
     ).then(function(products) {
       
       // Render the listing page
